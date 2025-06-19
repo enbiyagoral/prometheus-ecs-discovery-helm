@@ -1,0 +1,21 @@
+Prometheus ECS Discovery başarıyla kuruldu!
+
+
+{{- if .Values.storage.enabled }}
+EFS PersistentVolume ve PersistentVolumeClaim oluşturuldu.
+{{- end }}
+
+Uygulama durumunu kontrol etmek için:
+
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/name={{ include "prometheus-ecs-discovery.name" . }}
+
+Logları görüntülemek için:
+
+  kubectl logs -n {{ .Release.Namespace }} -l app.kubernetes.io/name={{ include "prometheus-ecs-discovery.name" . }}
+
+
+
+ECS Service Discovery konfigürasyonu:
+  - Cluster: {{ .Values.ecsDiscovery.cluster }}
+  - Scrape Interval: {{ .Values.ecsDiscovery.scrapeInterval }}
+  - Output File: {{ .Values.ecsDiscovery.writeTo }}

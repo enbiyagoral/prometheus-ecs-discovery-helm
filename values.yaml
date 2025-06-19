@@ -1,0 +1,75 @@
+# Default values for prometheus-ecs-discovery.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Number of replicas to deploy
+replicaCount: 1
+
+# Container image configuration
+image:
+  repository: enbiyagoral/prometheus-ecs-discovery
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+# Image pull secrets for private registries
+imagePullSecrets: []
+
+# Name overrides
+nameOverride: ""
+fullnameOverride: ""
+
+# ServiceAccount configuration
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::761792058451:role/prometheus-ecs-discovery-role
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# ECS Discovery Configuration
+ecsDiscovery:
+  # ECS cluster name to discover services from
+  cluster: "prometheus-discovery"
+  # How often to scrape ECS for service discovery
+  scrapeInterval: "1m"
+  # File path where service discovery data will be written
+  writeTo: "/etc/prometheus/ecs_file_sd.yml"
+  # Label names for service discovery metadata
+  serverNameLabel: "PROMETHEUS_EXPORTER_SERVER_NAME"
+  jobNameLabel: "PROMETHEUS_EXPORTER_JOB_NAME"
+  pathLabel: "PROMETHEUS_EXPORTER_PATH"
+  portLabel: "PROMETHEUS_EXPORTER_PORT"
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+# Storage configuration for EFS
+storage:
+  # Enable persistent storage
+  enabled: true
+  # Storage size
+  size: 1Gi
+  # Storage class name (should be EFS-based)
+  storageClass: efs-sc
+  # Access modes for the PVC
+  accessModes:
+    - ReadWriteMany
+
+# Volume mounts configuration
+volumeMounts:
+  - name: config
+    mountPath: /etc/prometheus-ecs-discovery
+  - name: ecs-sd-pvc
+    mountPath: /etc/prometheus
+    subPath: ""
