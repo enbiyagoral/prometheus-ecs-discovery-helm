@@ -1,8 +1,10 @@
 # Prometheus ECS Discovery Helm Chart
 
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/prometheus-ecs-discovery)](https://artifacthub.io/packages/helm/prometheus-ecs-discovery/prometheus-ecs-discovery)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/prometheus-ecs-discovery)](https://artifacthub.io/packages/search?repo=prometheus-ecs-discovery)
 
 A Helm chart for deploying Prometheus ECS Service Discovery to automatically discover and monitor AWS ECS services in Kubernetes.
+
+This Helm chart packages the [teralytics/prometheus-ecs-discovery](https://github.com/teralytics/prometheus-ecs-discovery) application for easy deployment in a Kubernetes environment.
 
 ## Features
 
@@ -143,17 +145,3 @@ helm upgrade ecs-discovery prometheus-ecs-discovery/prometheus-ecs-discovery \
 ```bash
 helm uninstall ecs-discovery -n monitoring
 ```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-- 📖 [Documentation](https://github.com/enbiyagoral/prometheus-ecs-discovery)
-- 🐛 [Issues](https://github.com/enbiyagoral/prometheus-ecs-discovery/issues)
-- 💬 [Discussions](https://github.com/enbiyagoral/prometheus-ecs-discovery/discussions) 

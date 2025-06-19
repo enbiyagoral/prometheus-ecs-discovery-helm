@@ -1,0 +1,193 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Prometheus ECS Discovery Helm Chart Values",
+    "description": "Schema for the values of the Prometheus ECS Discovery Helm chart.",
+    "type": "object",
+    "properties": {
+        "replicaCount": {
+            "type": "integer",
+            "description": "Number of replicas for the Prometheus ECS Discovery deployment.",
+            "default": 1
+        },
+        "image": {
+            "type": "object",
+            "description": "Container image configuration.",
+            "properties": {
+                "repository": {
+                    "type": "string",
+                    "description": "The repository of the container image.",
+                    "default": "enbiyagoral/prometheus-ecs-discovery"
+                },
+                "pullPolicy": {
+                    "type": "string",
+                    "description": "The image pull policy.",
+                    "enum": ["Always", "IfNotPresent", "Never"],
+                    "default": "IfNotPresent"
+                },
+                "tag": {
+                    "type": "string",
+                    "description": "The tag of the container image.",
+                    "default": "latest"
+                }
+            },
+            "required": ["repository", "pullPolicy", "tag"]
+        },
+        "imagePullSecrets": {
+            "type": "array",
+            "description": "Image pull secrets for private registries.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the image pull secret."
+                    }
+                }
+            },
+            "default": []
+        },
+        "nameOverride": {
+            "type": "string",
+            "description": "A name to override the default generated name.",
+            "default": ""
+        },
+        "fullnameOverride": {
+            "type": "string",
+            "description": "A name to override the default generated full name.",
+            "default": ""
+        },
+        "serviceAccount": {
+            "type": "object",
+            "description": "ServiceAccount configuration.",
+            "properties": {
+                "create": {
+                    "type": "boolean",
+                    "description": "Specifies whether a service account should be created.",
+                    "default": true
+                },
+                "automount": {
+                    "type": "boolean",
+                    "description": "Automatically mount a ServiceAccount's API credentials.",
+                    "default": true
+                },
+                "annotations": {
+                    "type": "object",
+                    "description": "Annotations to add to the service account.",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "eks.amazonaws.com/role-arn": "arn:aws:iam::761792058451:role/prometheus-ecs-discovery-role"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the service account to use. If not set and create is true, a name is generated.",
+                    "default": ""
+                }
+            }
+        },
+        "ecsDiscovery": {
+            "type": "object",
+            "description": "ECS Discovery Configuration.",
+            "properties": {
+                "cluster": {
+                    "type": "string",
+                    "description": "ECS cluster name to discover services from.",
+                    "default": "prometheus-discovery"
+                },
+                "scrapeInterval": {
+                    "type": "string",
+                    "description": "How often to scrape ECS for service discovery.",
+                    "pattern": "^[0-9]+(s|m|h)$",
+                    "default": "1m"
+                },
+                "writeTo": {
+                    "type": "string",
+                    "description": "File path where service discovery data will be written.",
+                    "default": "/etc/prometheus/ecs_file_sd.yml"
+                },
+                "serverNameLabel": {
+                    "type": "string",
+                    "description": "Label name for service discovery metadata (server name).",
+                    "default": "PROMETHEUS_EXPORTER_SERVER_NAME"
+                },
+                "jobNameLabel": {
+                    "type": "string",
+                    "description": "Label name for service discovery metadata (job name).",
+                    "default": "PROMETHEUS_EXPORTER_JOB_NAME"
+                },
+                "pathLabel": {
+                    "type": "string",
+                    "description": "Label name for service discovery metadata (path).",
+                    "default": "PROMETHEUS_EXPORTER_PATH"
+                },
+                "portLabel": {
+                    "type": "string",
+                    "description": "Label name for service discovery metadata (port).",
+                    "default": "PROMETHEUS_EXPORTER_PORT"
+                }
+            }
+        },
+        "resources": {
+            "type": "object",
+            "description": "Resource limits and requests for the container.",
+            "properties": {
+                "limits": {
+                    "type": "object",
+                    "properties": {
+                        "cpu": { "type": "string", "default": "100m" },
+                        "memory": { "type": "string", "default": "128Mi" }
+                    }
+                },
+                "requests": {
+                    "type": "object",
+                    "properties": {
+                        "cpu": { "type": "string", "default": "50m" },
+                        "memory": { "type": "string", "default": "64Mi" }
+                    }
+                }
+            }
+        },
+        "storage": {
+            "type": "object",
+            "description": "Storage configuration for EFS.",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable persistent storage.",
+                    "default": true
+                },
+                "size": {
+                    "type": "string",
+                    "description": "Storage size.",
+                    "default": "1Gi"
+                },
+                "storageClass": {
+                    "type": "string",
+                    "description": "Storage class name (should be EFS-based).",
+                    "default": "efs-sc"
+                },
+                "accessModes": {
+                    "type": "array",
+                    "description": "Access modes for the PVC.",
+                    "items": { "type": "string" },
+                    "default": ["ReadWriteMany"]
+                }
+            }
+        },
+        "volumeMounts": {
+            "type": "array",
+            "description": "Volume mounts configuration.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "mountPath": { "type": "string" },
+                    "subPath": { "type": "string" }
+                },
+                "required": ["name", "mountPath"]
+            }
+        }
+    }
+} 
