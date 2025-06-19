@@ -1,0 +1,44 @@
+apiVersion: v1
+entries:
+  prometheus-ecs-discovery:
+  - annotations:
+      artifacthub.io/changes: |
+        - Initial release
+        - ECS service discovery support
+        - EFS storage integration
+        - IAM role integration
+        - Configurable discovery parameters
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/images: |
+        - name: prometheus-ecs-discovery
+          image: enbiyagoral/prometheus-ecs-discovery:latest
+      artifacthub.io/operator: "false"
+      category: Monitoring
+      licenses: MIT
+      support: https://github.com/enbiyagoral/prometheus-ecs-discovery/issues
+    apiVersion: v2
+    appVersion: latest
+    created: "2025-06-20T02:27:15.751538+03:00"
+    description: A Helm chart for Prometheus ECS Service Discovery - Automatically
+      discover and monitor AWS ECS services
+    digest: a40b5c63c72ed62cc0227839c45646e5625ec81076fa48b6aa0d5da165d21746
+    home: https://github.com/enbiyagoral/prometheus-ecs-discovery-helm
+    keywords:
+    - prometheus
+    - ecs
+    - service-discovery
+    - monitoring
+    - aws
+    - eks
+    - helm
+    maintainers:
+    - email: menbiyagoral@gmail.com
+      name: enbiyagoral
+    name: prometheus-ecs-discovery
+    sources:
+    - https://github.com/teralytics/prometheus-ecs-discovery
+    type: application
+    urls:
+    - https://enbiyagoral.github.io/prometheus-ecs-discovery-helm/prometheus-ecs-discovery-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-06-20T02:27:15.749983+03:00"
